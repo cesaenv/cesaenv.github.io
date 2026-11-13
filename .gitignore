@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+test-results/
+playwright-report/
+.lighthouse/
+.env
+.env.*
+.DS_Store
+cv/preview/
