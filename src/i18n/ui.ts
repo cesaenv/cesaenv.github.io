@@ -68,7 +68,7 @@ export const ui = {
     'about.full': 'Ver trayectoria completa',
     'cv.download': 'Descargar CV (PDF)',
     'contact.title': 'Contacto',
-    'contact.intro': 'La forma más rápida de hablar conmigo es por LinkedIn o por email.',
+    'contact.intro': 'Si tienes un proyecto, una duda o simplemente quieres charlar de testing, ¡me encantará saber de ti! Escríbeme por LinkedIn o por email:',
     'opens.external': '(se abre en otra web)',
   },
   en: {
@@ -112,7 +112,7 @@ export const ui = {
     'about.full': 'See full background',
     'cv.download': 'Download CV (PDF)',
     'contact.title': 'Contact',
-    'contact.intro': 'The quickest way to reach me is LinkedIn or email.',
+    'contact.intro': "If you have a project, a question, or just want to chat about testing, I'd love to hear from you! Message me on LinkedIn or by email:",
     'opens.external': '(opens another site)',
   },
 } as const;
