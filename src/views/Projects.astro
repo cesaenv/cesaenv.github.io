@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { routes, useTranslations, type Lang } from '../i18n/ui';
+import { getProjects } from '../lib/projects';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const projects = await getProjects(lang);
+---
+
+<Base
+  lang={lang}
+  title={t('meta.projectsTitle')}
+  description={t('meta.projectsDescription')}
+  alternates={{ es: routes.projects.es, en: routes.projects.en }}
+  current="projects">
+  <div class="container">
+    <header class="head">
+      <h1>{t('projects.title')}</h1>
+      <p class="muted read">{t('projects.intro')}</p>
+    </header>
+    {
+      projects.map((project, i) => (
+        <section class="section">
+          <ProjectCard project={project} lang={lang} eager={i === 0} headingLevel={2} />
+        </section>
+      ))
+    }
+  </div>
+</Base>
+
+<style>
+  .head {
+    padding-block: clamp(2.5rem, 6vw, 4rem) 2rem;
+    border-bottom: 2px solid var(--rule);
+  }
+</style>

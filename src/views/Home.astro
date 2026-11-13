@@ -1,0 +1,155 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactLinks from '../components/ContactLinks.astro';
+import CvButton from '../components/CvButton.astro';
+import CvEntries from '../components/CvEntries.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { education, experience, profile, routes, useTranslations, type Lang } from '../i18n/ui';
+import { getProjects } from '../lib/projects';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const featured = (await getProjects(lang)).filter((p) => p.data.featured);
+---
+
+<Base
+  lang={lang}
+  description={t('meta.homeDescription')}
+  alternates={{ es: routes.home.es, en: routes.home.en }}
+  current="home"
+  ogType="profile">
+  <div class="container">
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title">
+        <span class="name">Celia <br />Sáenz Villalta</span><span class="sr-only">, </span><span class="job"
+          >{t('role')}</span
+        >
+      </h1>
+      <div class="split hero-body">
+        <p class="location">{t('location')}</p>
+        <div>
+          <div class="intro" data-testid="intro">
+            {profile[lang].map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+          <div class="cta">
+            <ContactLinks lang={lang} />
+            <CvButton lang={lang} />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section split" aria-labelledby="exp-title">
+      <h2 id="exp-title" class="label">{t('about.experience')}</h2>
+      <div>
+        <CvEntries items={experience[lang]} />
+        <p class="more"><a href={routes.about[lang]}>{t('about.full')}</a></p>
+      </div>
+    </section>
+
+    <section class="section split" aria-labelledby="edu-title">
+      <h2 id="edu-title" class="label">{t('about.education')}</h2>
+      <CvEntries items={education[lang]} />
+    </section>
+
+    {
+      featured.length > 0 && (
+        <section class="section split" aria-labelledby="featured-title">
+          <h2 id="featured-title" class="label">
+            {t('home.featured')}
+          </h2>
+          <div class="projects">
+            {featured.map((project) => (
+              <ProjectCard project={project} lang={lang} />
+            ))}
+            <p class="more">
+              <a href={routes.projects[lang]}>{t('home.allProjects')}</a>
+            </p>
+          </div>
+        </section>
+      )
+    }
+
+    <section class="section split" aria-labelledby="now-title">
+      <h2 id="now-title" class="label">{t('now.title')}</h2>
+      <p class="now" data-testid="now">{t('now.text')}</p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .hero {
+    padding-block: clamp(2.5rem, 7vw, 4.5rem) 3rem;
+    border-bottom: 2px solid var(--rule);
+  }
+
+  h1 {
+    font-size: clamp(2.75rem, 1.2rem + 6.5vw, 6.25rem);
+    line-height: 0.95;
+    margin-bottom: 2.5rem;
+  }
+
+  .name {
+    display: block;
+  }
+
+  .job {
+    display: block;
+    margin-top: 0.22em;
+    font-size: max(0.56em, 1.625rem);
+    line-height: 1.05;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    color: var(--accent);
+  }
+
+  .location {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .intro {
+    font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
+    line-height: 1.55;
+    max-width: 44rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .intro p {
+    margin: 0 0 0.9em;
+  }
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.75rem;
+  }
+
+  .projects {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .more {
+    margin: 1.25rem 0 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  .projects .more {
+    margin: 0;
+  }
+
+  .now {
+    font-size: clamp(1.125rem, 1rem + 0.6vw, 1.375rem);
+    line-height: 1.45;
+    max-width: 34ch;
+    margin: 0;
+  }
+</style>

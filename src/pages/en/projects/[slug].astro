@@ -1,0 +1,16 @@
+---
+import Project from '../../../views/Project.astro';
+import { getProjects, slugOf } from '../../../lib/projects';
+
+export async function getStaticPaths() {
+  const others = new Set((await getProjects('es')).map(slugOf));
+  return (await getProjects('en')).map((project) => ({
+    params: { slug: slugOf(project) },
+    props: { project, hasTranslation: others.has(slugOf(project)) },
+  }));
+}
+
+const { project, hasTranslation } = Astro.props;
+---
+
+<Project lang="en" project={project} hasTranslation={hasTranslation} />

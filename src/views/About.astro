@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import CvButton from '../components/CvButton.astro';
+import CvEntries from '../components/CvEntries.astro';
+import StackGroups from '../components/StackGroups.astro';
+import { education, experience, routes, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<Base
+  lang={lang}
+  title={t('meta.aboutTitle')}
+  description={t('meta.aboutDescription')}
+  alternates={{ es: routes.about.es, en: routes.about.en }}
+  current="about">
+  <div class="container">
+    <header class="head">
+      <h1>{t('about.title')}</h1>
+      <p class="role">{t('role')} · {t('location')}</p>
+      <CvButton lang={lang} />
+    </header>
+
+    <section class="section split" aria-labelledby="exp">
+      <h2 id="exp" class="label">{t('about.experience')}</h2>
+      <CvEntries items={experience[lang]} showTasks />
+    </section>
+
+    <section class="section split" aria-labelledby="edu">
+      <h2 id="edu" class="label">{t('about.education')}</h2>
+      <CvEntries items={education[lang]} />
+    </section>
+
+    <section class="section split" aria-labelledby="stack">
+      <h2 id="stack" class="label">{t('about.stack')}</h2>
+      <StackGroups lang={lang} />
+    </section>
+
+    <section class="section split" aria-labelledby="now" data-testid="now-section">
+      <h2 id="now" class="label">{t('now.title')}</h2>
+      <p class="read">{t('now.text')}</p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .head {
+    padding-block: clamp(2.5rem, 6vw, 4rem) 2.5rem;
+    border-bottom: 2px solid var(--rule);
+  }
+
+  h1 {
+    margin-bottom: 0.25rem;
+  }
+
+  .role {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+</style>

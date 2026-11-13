@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon, { type IconName } from '../components/Icon.astro';
+import { routes, site, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const entries: { icon: IconName; label: string; href: string; text: string }[] = [
+  { icon: 'linkedin', label: 'LinkedIn', href: site.linkedin, text: 'celia-sáenz-villalta' },
+  { icon: 'email', label: 'Email', href: `mailto:${site.email}`, text: site.email },
+  { icon: 'github', label: 'GitHub', href: site.github, text: 'cesaenv' },
+];
+---
+
+<Base
+  lang={lang}
+  title={t('meta.contactTitle')}
+  description={t('meta.contactDescription')}
+  alternates={{ es: routes.contact.es, en: routes.contact.en }}
+  current="contact">
+  <div class="container">
+    <header class="head">
+      <h1>{t('contact.title')}</h1>
+      <p class="read">{t('contact.intro')}</p>
+    </header>
+    <ul class="section contact">
+      {
+        entries.map((entry) => (
+          <li>
+            <a href={entry.href} data-testid={`contact-${entry.icon}`}>
+              <Icon name={entry.icon} size={28} />
+              <span class="label-text">{entry.label}</span>
+              <span class="handle">{entry.text}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .head {
+    padding-block: clamp(2.5rem, 6vw, 4rem) 2rem;
+    border-bottom: 2px solid var(--rule);
+  }
+
+  .contact {
+    display: grid;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding-inline: 0;
+  }
+
+  a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    height: 100%;
+    padding: 1.5rem 1.25rem;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  a:hover {
+    border-color: var(--accent);
+  }
+
+  a :global(svg) {
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .label-text {
+    font-weight: 600;
+  }
+
+  .handle {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  @media (min-width: 46rem) {
+    .contact {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

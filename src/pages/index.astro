@@ -1,0 +1,21 @@
+---
+// Raíz del sitio: redirige al español (idioma por defecto) sin JavaScript.
+const target = '/es/';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Celia Sáenz Villalta · QA Engineer</title>
+    <meta name="description" content="QA Engineer en Logroño. QA Engineer based in Logroño, Spain." />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={new URL(target, Astro.site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <p><a href="/es/">Español</a> · <a href="/en/" lang="en">English</a></p>
+  </body>
+</html>

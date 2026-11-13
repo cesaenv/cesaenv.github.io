@@ -1,0 +1,93 @@
+---
+import { Image } from 'astro:assets';
+import { render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { projectPath, routes, useTranslations, type Lang } from '../i18n/ui';
+import { slugOf } from '../lib/projects';
+
+interface Props {
+  lang: Lang;
+  project: CollectionEntry<'projects'>;
+  hasTranslation: boolean;
+}
+
+const { lang, project, hasTranslation } = Astro.props;
+const t = useTranslations(lang);
+const other: Lang = lang === 'es' ? 'en' : 'es';
+const slug = slugOf(project);
+const { title, summary, stack, repo, demo, image, imageAlt } = project.data;
+const { Content } = await render(project);
+const alternates = {
+  [lang]: projectPath(lang, slug),
+  [other]: hasTranslation ? projectPath(other, slug) : routes.projects[other],
+} as Record<Lang, string>;
+---
+
+<Base lang={lang} title={title} description={summary} alternates={alternates} current="projects" ogType="article">
+  <article class="container page">
+    <p class="back"><a href={routes.projects[lang]}>← {t('projects.back')}</a></p>
+    <h1>{title}</h1>
+    <p class="lead read">{summary}</p>
+    <p class="actions">
+      {repo && <a class="button" href={repo}>{t('projects.repo')}</a>}
+      {demo && <a class="button primary" href={demo}>{t('projects.demo')}</a>}
+    </p>
+    {
+      image && (
+        <Image
+          class="shot"
+          src={image}
+          alt={imageAlt ?? ''}
+          widths={[480, 800, 1200, 1600]}
+          sizes="(min-width: 64rem) 61rem, 100vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+      )
+    }
+    <div class="content read">
+      <Content />
+    </div>
+    <section class="section split" aria-labelledby="stack-title">
+      <h2 id="stack-title" class="label">{t('projects.stack')}</h2>
+      <p class="stack">{stack.join(' · ')}</p>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .lead {
+    font-size: 1.125rem;
+    color: var(--muted);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .page {
+    padding-top: clamp(2rem, 5vw, 3rem);
+  }
+
+  .back {
+    font-size: 0.9375rem;
+    margin-bottom: 2rem;
+  }
+
+  .shot {
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+
+  .content {
+    margin-bottom: 2rem;
+  }
+
+  .stack {
+    margin: 0;
+    color: var(--muted);
+  }
+</style>
