@@ -1,0 +1,23 @@
+---
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { site, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const href = site.cv[lang];
+// El botón solo aparece cuando el PDF existe en public/cv/, así nunca hay un enlace roto.
+const available = existsSync(join(process.cwd(), 'public', href));
+---
+
+{
+  available && (
+    <a class="button primary" href={href} download data-testid="cv-download">
+      {t('cv.download')}
+    </a>
+  )
+}

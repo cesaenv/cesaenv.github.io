@@ -1,0 +1,96 @@
+---
+interface Props {
+  items: { title: string; place?: string; dates: string; tasks?: string[] }[];
+  showTasks?: boolean;
+}
+
+const { items, showTasks = false } = Astro.props;
+---
+
+<ol class="entries">
+  {
+    items.map((item) => (
+      <li>
+        <p class="dates">{item.dates}</p>
+        <div>
+          <h3>{item.title}</h3>
+          {item.place && <p class="place">{item.place}</p>}
+          {showTasks && item.tasks && (
+            <ul class="tasks">
+              {item.tasks.map((task) => (
+                <li>{task}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .entries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .entries > li + li {
+    border-top: 1px solid var(--border);
+  }
+
+  .entries > li {
+    padding-block: 0.75rem;
+  }
+
+  .entries > li:first-child {
+    padding-top: 0;
+  }
+
+  .entries > li {
+    display: grid;
+    gap: 0.1rem;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .dates {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.2rem;
+  }
+
+  .place {
+    color: var(--muted);
+  }
+
+  .tasks {
+    list-style: disc;
+    margin: 0.5rem 0 0;
+    padding-left: 1.1rem;
+    color: var(--muted);
+  }
+
+  .tasks li {
+    margin-bottom: 0.25rem;
+  }
+
+  .tasks li::marker {
+    color: var(--accent);
+  }
+
+  @media (min-width: 40rem) {
+    .entries > li {
+      grid-template-columns: 13rem minmax(0, 1fr);
+      gap: 1rem;
+    }
+  }
+</style>

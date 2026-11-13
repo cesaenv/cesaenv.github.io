@@ -1,0 +1,60 @@
+---
+import { site, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container row">
+    <p>© {year} {site.name}</p>
+    <ul aria-label={t('links.label')}>
+      <li><a href={site.github}>GitHub</a></li>
+      <li><a href={site.linkedin}>LinkedIn</a></li>
+      <li><a href={`mailto:${site.email}`}>Email</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 2px solid var(--rule);
+    margin-top: 3rem;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  p,
+  ul {
+    margin: 0;
+  }
+
+  ul {
+    display: flex;
+    gap: 1.25rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  a {
+    color: var(--muted);
+  }
+
+  a:hover {
+    color: var(--text);
+  }
+</style>

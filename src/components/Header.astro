@@ -1,0 +1,128 @@
+---
+import { routes, site, useTranslations, type Lang, type RouteKey } from '../i18n/ui';
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Props {
+  lang: Lang;
+  alternates: Record<Lang, string>;
+  current?: RouteKey;
+}
+
+const { lang, alternates, current } = Astro.props;
+const t = useTranslations(lang);
+const other: Lang = lang === 'es' ? 'en' : 'es';
+const nav: { key: RouteKey; label: string }[] = [
+  { key: 'projects', label: t('nav.projects') },
+  { key: 'about', label: t('nav.about') },
+  { key: 'contact', label: t('nav.contact') },
+];
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href={routes.home[lang]} aria-current={current === 'home' ? 'page' : undefined}>
+      <span aria-hidden="true">C. Sáenz Villalta</span><span class="sr-only">{site.name}</span>
+    </a>
+    <nav aria-label={t('nav.label')}>
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={routes[item.key][lang]} aria-current={current === item.key ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="tools">
+      <a class="lang" href={alternates[other]} hreflang={other} lang={other} data-testid="lang-switch" title={t('lang.switch')}
+        >{other.toUpperCase()}<span class="sr-only"> · {t('lang.switch')}</span></a
+      >
+      <ThemeToggle label={t('theme.toggle')} />
+    </div>
+  </div>
+</header>
+
+<style>
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 1.5rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .brand {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    margin-right: auto;
+    white-space: nowrap;
+  }
+
+  nav {
+    order: 3;
+    width: 100%;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav a {
+    display: inline-block;
+    padding: 0.35rem 0;
+    color: var(--text);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--accent);
+  }
+
+  nav a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.45em;
+  }
+
+  .tools {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .lang {
+    display: inline-grid;
+    place-items: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    color: var(--text);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .lang:hover {
+    color: var(--accent);
+  }
+
+  @media (min-width: 46rem) {
+    nav {
+      order: 0;
+      width: auto;
+    }
+  }
+</style>

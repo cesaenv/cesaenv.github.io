@@ -1,0 +1,102 @@
+---
+import '@fontsource-variable/inter/wght.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site, useTranslations, type Lang, type RouteKey } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description: string;
+  alternates: Record<Lang, string>;
+  current?: RouteKey;
+  ogType?: 'website' | 'profile' | 'article';
+}
+
+const { lang, title, description, alternates, current, ogType = 'website' } = Astro.props;
+const t = useTranslations(lang);
+const fullTitle = title ? `${title} · ${site.name}` : t('meta.homeTitle');
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og.png', Astro.site);
+const ogLocale = lang === 'es' ? 'es_ES' : 'en_US';
+const ogAltLocale = lang === 'es' ? 'en_US' : 'es_ES';
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href={new URL(alternates.es, Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL(alternates.en, Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(alternates.es, Astro.site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#0f1a2e" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${site.name} · QA Engineer`} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogAltLocale} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script is:inline>
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+        } catch (e) {}
+      })();
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#main">{t('skip')}</a>
+    <Header lang={lang} alternates={alternates} current={current} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute;
+    left: 1rem;
+    top: -3rem;
+    z-index: 10;
+    padding: 0.5rem 0.9rem;
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .skip:focus {
+    top: 1rem;
+  }
+
+  main {
+    display: block;
+    min-height: 60vh;
+  }
+
+  main:focus {
+    outline: none;
+  }
+</style>

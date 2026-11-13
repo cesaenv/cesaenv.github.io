@@ -1,0 +1,73 @@
+---
+import { stackGroups } from '../data/stack';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<dl class="skills">
+  {
+    stackGroups.map((group) => (
+      <div class="row">
+        <dt>{group.label[lang]}</dt>
+        <dd>
+          <ul>
+            {group.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .skills {
+    margin: 0;
+  }
+
+  .row {
+    display: grid;
+    gap: 0.15rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .row:first-child {
+    padding-top: 0;
+  }
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    color: var(--muted);
+  }
+
+  li:not(:last-child)::after {
+    content: '·';
+    padding: 0 0.5em;
+  }
+
+  @media (min-width: 40rem) {
+    .row {
+      grid-template-columns: 11rem minmax(0, 1fr);
+      gap: 1rem;
+    }
+  }
+</style>
