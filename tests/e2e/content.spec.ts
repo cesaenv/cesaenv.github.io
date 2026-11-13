@@ -74,9 +74,9 @@ test('el botón de CV solo aparece si existe el PDF', async ({ page, request }) 
   }
 });
 
-test('la web no muestra el nombre de la empresa', async ({ page }) => {
+test('la web no muestra el nombre de la empresa matriz', async ({ page }) => {
   for (const path of ['/es/', '/en/', '/es/trayectoria/', '/en/background/']) {
     await page.goto(path);
-    await expect(page.locator('body'), path).not.toContainText(/arsys|ionos/i);
+    await expect(page.locator('body'), path).not.toContainText(/ionos/i);
   }
 });

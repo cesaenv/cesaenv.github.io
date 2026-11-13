@@ -136,6 +136,6 @@ export const education: Record<Lang, CvEntry[]> = {
 };
 
 export const experience: Record<Lang, CvEntry[]> = {
-  es: cv.es.experience.map(({ title, dates, tasks }) => ({ title, dates, tasks })),
-  en: cv.en.experience.map(({ title, dates, tasks }) => ({ title, dates, tasks })),
+  es: cv.es.experience.map(({ title, company, dates, tasks }) => ({ title, place: company, dates, tasks })),
+  en: cv.en.experience.map(({ title, company, dates, tasks }) => ({ title, place: company, dates, tasks })),
 };
