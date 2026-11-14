@@ -40,6 +40,8 @@ test('no hay enlaces internos rotos', async ({ page, request, baseURL }) => {
       const kind = entry.slice(0, 1);
       const url = new URL(entry.slice(2));
       if (url.origin !== origin && !url.href.startsWith('https://cesaenv.github.io/')) continue;
+      // /games/ es otro sitio (repositorio de juegos), no forma parte de este build.
+      if (url.pathname.startsWith('/games/')) continue;
       // Las URLs absolutas del sitio publicado (canonical, og:image, hreflang) se comprueban en local.
       const local = url.pathname;
       if (kind === 'a' && !/\.[a-z0-9]+$/i.test(local)) {
