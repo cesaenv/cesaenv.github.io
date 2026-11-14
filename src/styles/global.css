@@ -1,33 +1,3 @@
-/* Tema por defecto: marino y mostaza oscuro. El botón de tema cambia a la versión clara. */
-:root {
-  --bg: #0f1a2e;
-  --surface: #14213a;
-  --text: #f3eee2;
-  --muted: #a7b0c2;
-  --border: #2a3752;
-  --rule: #f3eee2;
-  --accent: #e3b341;
-  --accent-contrast: #0f1a2e;
-  --focus: #e3b341;
-  --sans: 'Inter Variable', 'Helvetica Neue', Arial, system-ui, sans-serif;
-  --max: 70rem;
-  --read: 40rem;
-  color-scheme: dark;
-}
-
-:root[data-theme='light'] {
-  --bg: #f5f2ea;
-  --surface: #fffdf8;
-  --text: #14213d;
-  --muted: #4f5872;
-  --border: #dcd7c9;
-  --rule: #14213d;
-  --accent: #8a6100;
-  --accent-contrast: #f5f2ea;
-  --focus: #8a6100;
-  color-scheme: light;
-}
-
 *,
 *::before,
 *::after {
