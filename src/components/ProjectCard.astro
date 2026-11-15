@@ -15,7 +15,8 @@ const { project, lang, eager = false, headingLevel = 3 } = Astro.props;
 const Heading = `h${headingLevel}` as 'h2' | 'h3';
 const t = useTranslations(lang);
 const { title, summary, stack, repo, demo, image, imageAlt } = project.data;
-const href = projectPath(lang, slugOf(project));
+const slug = slugOf(project);
+const href = projectPath(lang, slug);
 ---
 
 <article class="project" data-testid="project-card">
@@ -40,9 +41,9 @@ const href = projectPath(lang, slugOf(project));
       <span class="sr-only">{t('projects.stack')}: </span>{stack.join(' · ')}
     </p>
     <p class="actions">
-      {repo && <a href={repo}>{t('projects.repo')}</a>}
-      {demo && <a href={demo}>{t('projects.demo')}</a>}
-      <a href={href}>{t('projects.details')}</a>
+      {repo && <a href={repo} data-goatcounter-click={`repo-${slug}`}>{t('projects.repo')}</a>}
+      {demo && <a href={demo} data-goatcounter-click={`demo-${slug}`}>{t('projects.demo')}</a>}
+      <a href={href} data-goatcounter-click={`detalles-${slug}`}>{t('projects.details')}</a>
     </p>
   </div>
 </article>

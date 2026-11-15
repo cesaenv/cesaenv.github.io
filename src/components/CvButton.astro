@@ -16,7 +16,7 @@ const available = existsSync(join(process.cwd(), 'public', href));
 
 {
   available && (
-    <a class="button primary" href={href} download data-testid="cv-download">
+    <a class="button primary" href={href} download data-testid="cv-download" data-goatcounter-click={`cv-descarga-${lang}`}>
       {t('cv.download')}
     </a>
   )
