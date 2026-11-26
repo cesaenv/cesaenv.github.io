@@ -174,17 +174,28 @@ const href = projectPath(lang, slug);
     transform-origin: 0 0;
   }
 
+  /* Área de pulsación de 24px (mínimo de accesibilidad); el punto visible es más pequeño. */
   .dot {
-    width: 0.6rem;
-    height: 0.6rem;
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
     padding: 0;
-    border: 1px solid var(--surface);
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--surface) 40%, transparent);
+    border: 0;
+    background: none;
     cursor: pointer;
   }
 
-  .dot.is-active {
+  .dot::before {
+    content: '';
+    width: 0.6rem;
+    height: 0.6rem;
+    border: 1px solid var(--surface);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface) 40%, transparent);
+  }
+
+  .dot.is-active::before {
     background: var(--accent);
   }
 
