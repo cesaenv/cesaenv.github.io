@@ -14,10 +14,6 @@ export const routes = {
 } as const;
 export type RouteKey = keyof typeof routes;
 
-export function projectPath(lang: Lang, slug: string) {
-  return `${routes.projects[lang]}${slug}/`;
-}
-
 export const site = {
   name: 'Celia Sáenz Villalta',
   github: 'https://github.com/cesaenv',
@@ -58,7 +54,6 @@ export const ui = {
     'projects.intro': 'Cosas que he construido y están publicadas.',
     'projects.repo': 'Repositorio',
     'projects.demo': 'Web en vivo',
-    'projects.details': 'Detalles',
     'projects.stack': 'Stack',
     'projects.back': 'Volver a proyectos',
     'about.title': 'Trayectoria',
@@ -102,7 +97,6 @@ export const ui = {
     'projects.intro': "Things I've built that are out in the open.",
     'projects.repo': 'Repository',
     'projects.demo': 'Live site',
-    'projects.details': 'Details',
     'projects.stack': 'Stack',
     'projects.back': 'Back to projects',
     'about.title': 'Background',

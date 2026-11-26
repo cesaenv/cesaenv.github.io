@@ -58,5 +58,6 @@ test('no hay enlaces internos rotos', async ({ page, request, baseURL }) => {
   }
 
   expect(broken, broken.join('\n')).toEqual([]);
-  expect(visited.size).toBeGreaterThanOrEqual(10);
+  // Las páginas de detalle de proyecto ya no existen: las tarjetas enlazan a la demo o al repositorio.
+  expect(visited.size).toBeGreaterThanOrEqual(9);
 });

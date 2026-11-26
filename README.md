@@ -63,7 +63,7 @@ order: 2                                           # order in listings
 Longer text for the detail page (optional).
 ```
 
-That's it: the card, the `/en/projects/my-project/` page (and the Spanish one), the sitemap and the language switcher are all generated automatically. If either language is missing, `npm test` fails.
+That's it: the card (which links straight to `demo`, or to `repo` if there is no demo), the sitemap and the language switcher are all generated automatically. If either language is missing, `npm test` fails.
 
 ## CV
 

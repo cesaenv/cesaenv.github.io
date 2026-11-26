@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import { projectPath, useTranslations, type Lang } from '../i18n/ui';
+import { useTranslations, type Lang } from '../i18n/ui';
 import { slugOf } from '../lib/projects';
 
 interface Props {
@@ -16,7 +16,8 @@ const Heading = `h${headingLevel}` as 'h2' | 'h3';
 const t = useTranslations(lang);
 const { title, summary, stack, repo, demo, image, imageAlt } = project.data;
 const slug = slugOf(project);
-const href = projectPath(lang, slug);
+// La tarjeta lleva directamente a la web del proyecto (demo) o, si no hay, al repositorio.
+const href = demo ?? repo;
 ---
 
 <article class="project" data-testid="project-card">
@@ -35,7 +36,7 @@ const href = projectPath(lang, slug);
     )
   }
   <div class="body">
-    <Heading class="title"><a href={href}>{title}</a></Heading>
+    <Heading class="title"><a href={href} data-goatcounter-click={`tarjeta-${slug}`}>{title}</a></Heading>
     <p class="summary">{summary}</p>
     <p class="stack">
       <span class="sr-only">{t('projects.stack')}: </span>{stack.join(' · ')}
@@ -43,7 +44,6 @@ const href = projectPath(lang, slug);
     <p class="actions">
       {repo && <a href={repo} data-goatcounter-click={`repo-${slug}`}>{t('projects.repo')}</a>}
       {demo && <a href={demo} data-goatcounter-click={`demo-${slug}`}>{t('projects.demo')}</a>}
-      <a href={href} data-goatcounter-click={`detalles-${slug}`}>{t('projects.details')}</a>
     </p>
   </div>
 </article>

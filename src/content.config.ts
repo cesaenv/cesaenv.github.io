@@ -22,6 +22,10 @@ const projects = defineCollection({
       .refine((p) => !p.image || p.imageAlt, {
         message: 'imageAlt es obligatorio cuando hay imagen',
         path: ['imageAlt'],
+      })
+      .refine((p) => p.demo || p.repo, {
+        message: 'demo o repo es obligatorio: la tarjeta enlaza a uno de los dos',
+        path: ['demo'],
       }),
 });
 
