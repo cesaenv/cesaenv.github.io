@@ -5,7 +5,7 @@ stack: [Python, Machine Learning, Data Analysis, Jupyter, GitHub Pages]
 repo: https://github.com/cesaenv/spikes
 demo: https://cesaenv.github.io/spikes/
 image: ../../../assets/projects/spikes.jpg
-imageAlt: Investigaciones y análisis de datos
+imageAlt: Portada de spikes con las investigaciones de reconocer dígitos y humanos frente a bots
 order: 0
 ---
 
