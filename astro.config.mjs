@@ -4,7 +4,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { routes } from './src/i18n/ui.ts';
 
-const site = 'https://cesaenv.github.io';
+const site = 'https://saenzvillaltacelia.com';
 const hreflang = { es: 'es', en: 'en' };
 
 /**
