@@ -38,7 +38,7 @@ test('el tema oscuro es el predeterminado y el botón cambia al claro, que se re
 });
 
 test('no hay scroll horizontal', async ({ page }) => {
-  for (const path of ['/es/', '/en/background/', '/es/proyectos/neighborhood-web/']) {
+  for (const path of ['/es/', '/en/background/', '/es/proyectos/']) {
     await page.goto(path);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     expect(overflow, path).toBeLessThanOrEqual(0);
@@ -46,7 +46,7 @@ test('no hay scroll horizontal', async ({ page }) => {
 });
 
 test('el texto no toca los bordes de la pantalla', async ({ page }) => {
-  for (const path of ['/es/', '/en/projects/', '/es/proyectos/neighborhood-web/', '/en/background/']) {
+  for (const path of ['/es/', '/en/projects/', '/es/proyectos/', '/en/background/']) {
     await page.goto(path);
     const offenders = await page.evaluate(() => {
       const width = document.documentElement.clientWidth;

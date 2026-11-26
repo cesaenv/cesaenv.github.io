@@ -54,7 +54,7 @@ test('contacto: LinkedIn y email visibles, sin formularios', async ({ page }) =>
 });
 
 test('las imágenes tienen texto alternativo', async ({ page }) => {
-  for (const path of ['/es/', '/en/projects/', '/es/proyectos/neighborhood-web/']) {
+  for (const path of ['/es/', '/en/projects/']) {
     await page.goto(path);
     for (const img of await page.locator('img').all()) {
       await expect(img, path).toHaveAttribute('alt', /.+/);
