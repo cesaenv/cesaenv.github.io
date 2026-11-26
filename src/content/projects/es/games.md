@@ -3,7 +3,7 @@ title: games
 summary: "¿Has llegado hasta aquí y te apetece jugar a uno de los juegos míticos? Puedes jugarlo a mano o dejar que se resuelva solo... eso lo decides tú."
 stack: [HTML, CSS, JavaScript, GitHub Pages]
 repo: https://github.com/cesaenv/games
-demo: https://cesaenv.github.io/games/
+demo: https://games.saenzvillaltacelia.com/
 image: ../../../assets/projects/games.jpg
 imageAlt: Menú de juegos con el 2048 jugándose solo en la tarjeta
 aspect: "1:1"

@@ -3,9 +3,9 @@ title: spikes
 summary: "Investigaciones y pruebas de concepto sobre análisis de datos, machine learning y patrones de comportamiento de usuarios. Desde detección de bots hasta análisis de tráfico web."
 stack: [Python, Machine Learning, Data Analysis, Jupyter, GitHub Pages]
 repo: https://github.com/cesaenv/spikes
-demo: https://cesaenv.github.io/spikes/
+demo: https://spikes.saenzvillaltacelia.com/
 image: ../../../assets/projects/spikes.jpg
-imageAlt: Investigaciones y análisis de datos
+imageAlt: Portada de spikes con las investigaciones de reconocer dígitos y humanos frente a bots
 gallery:
   - image: ../../../assets/projects/gallery/spikes-digitos.png
     alt: Dígitos de MNIST con la predicción de la red
