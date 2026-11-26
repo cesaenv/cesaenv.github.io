@@ -3,7 +3,7 @@ title: games
 summary: "You made it all the way down here. Fancy playing one of the legendary games? You can play it by hand or let it solve itself... that's up to you."
 stack: [HTML, CSS, JavaScript, GitHub Pages]
 repo: https://github.com/cesaenv/games
-demo: https://cesaenv.github.io/games/
+demo: https://games.saenzvillaltacelia.com/
 image: ../../../assets/projects/games.jpg
 imageAlt: Games menu with 2048 playing itself on its card
 order: 1000
