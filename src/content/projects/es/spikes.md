@@ -6,6 +6,11 @@ repo: https://github.com/cesaenv/spikes
 demo: https://cesaenv.github.io/spikes/
 image: ../../../assets/projects/spikes.jpg
 imageAlt: Investigaciones y análisis de datos
+gallery:
+  - image: ../../../assets/projects/gallery/spikes-digitos.png
+    alt: Dígitos de MNIST con la predicción de la red
+  - image: ../../../assets/projects/gallery/spikes-pca.png
+    alt: Proyección PCA de los clústeres de k-means sobre las sesiones
 order: 0
 ---
 
