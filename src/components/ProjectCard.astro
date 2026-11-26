@@ -14,25 +14,82 @@ interface Props {
 const { project, lang, eager = false, headingLevel = 3 } = Astro.props;
 const Heading = `h${headingLevel}` as 'h2' | 'h3';
 const t = useTranslations(lang);
-const { title, summary, stack, repo, demo, image, imageAlt } = project.data;
+const { title, summary, stack, repo, demo, image, imageAlt, gallery, aspect, mediaSide } =
+  project.data;
+const hasGallery = gallery !== undefined && gallery.length > 0;
+// Tamaño virtual en el que se dibujan las demos; se reduce al ancho de la tarjeta.
+const square = aspect === '1:1';
+const vw = square ? 600 : 850;
+const vh = square ? 600 : 531;
 const slug = slugOf(project);
 // La tarjeta lleva directamente a la web del proyecto (demo) o, si no hay, al repositorio.
 const href = demo ?? repo;
 ---
 
-<article class="project" data-testid="project-card">
+<article
+  class:list={['project', { 'media-right': mediaSide === 'right' }]}
+  data-testid="project-card"
+>
   {
-    image && (
-      <a href={href} class="media" tabindex="-1" aria-hidden="true">
-        <Image
-          src={image}
-          alt={imageAlt ?? ''}
-          widths={[400, 640, 960]}
-          sizes="(min-width: 46rem) 22rem, 100vw"
-          loading={eager ? 'eager' : 'lazy'}
-          fetchpriority={eager ? 'high' : 'auto'}
-        />
-      </a>
+    hasGallery ? (
+      <div
+        class:list={['media', 'carousel', { square }]}
+        data-carousel
+        data-interval="5000"
+        data-vw={vw}
+      >
+        <div class="slides">
+          {gallery.map((slide, i) => (
+            <div class:list={['slide', { 'is-active': i === 0 }]}>
+              {slide.demo ? (
+                <iframe
+                  data-src={slide.demo}
+                  title={slide.alt}
+                  class="demo"
+                  tabindex="-1"
+                  style={`width:${vw}px;height:${vh}px`}
+                />
+              ) : (
+                slide.image && (
+                  <Image
+                    src={slide.image}
+                    alt={slide.alt}
+                    widths={[400, 640, 960]}
+                    sizes="(min-width: 46rem) 22rem, 100vw"
+                    loading={eager && i === 0 ? 'eager' : 'lazy'}
+                    fetchpriority={eager && i === 0 ? 'high' : 'auto'}
+                  />
+                )
+              )}
+            </div>
+          ))}
+        </div>
+        {gallery.length > 1 && (
+          <div class="dots">
+            {gallery.map((slide, i) => (
+              <button
+                type="button"
+                class:list={['dot', { 'is-active': i === 0 }]}
+                data-dot={i}
+                aria-label={`${i + 1} / ${gallery.length}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    ) : (
+      image && (
+        <a href={href} class="media" tabindex="-1" aria-hidden="true">
+          <Image
+            src={image}
+            alt={imageAlt ?? ''}
+            widths={[400, 640, 960]}
+            sizes="(min-width: 46rem) 22rem, 100vw"
+            loading={eager ? 'eager' : 'lazy'}
+            fetchpriority={eager ? 'high' : 'auto'}
+          />
+        </a>
+      )
     )
   }
   <div class="body">
@@ -66,6 +123,86 @@ const href = demo ?? repo;
     height: 100%;
     object-fit: cover;
     object-position: top;
+  }
+
+  /* Carrusel: las diapositivas se superponen y solo una es visible. */
+  .carousel {
+    position: relative;
+  }
+
+  .slides {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .slide.is-active {
+    opacity: 1;
+  }
+
+  /* Puntos verticales en el borde derecho de la imagen. */
+  .dots {
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  /* Tarjeta cuadrada (como el menú de games). El tamaño de la demo va en style. */
+  .carousel.square {
+    aspect-ratio: 1 / 1;
+    max-width: 16rem;
+  }
+
+  /* La demo se dibuja a su tamaño virtual (style) y se reduce al ancho de la tarjeta. */
+  .demo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0;
+    background: var(--bg);
+    transform-origin: 0 0;
+  }
+
+  /* Área de pulsación de 24px (mínimo de accesibilidad); el punto visible es más pequeño. */
+  .dot {
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .dot::before {
+    content: '';
+    width: 0.6rem;
+    height: 0.6rem;
+    border: 1px solid var(--surface);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface) 40%, transparent);
+  }
+
+  .dot.is-active::before {
+    background: var(--accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .slide {
+      transition: none;
+    }
   }
 
   .title {
@@ -110,5 +247,79 @@ const href = demo ?? repo;
       gap: 2rem;
       align-items: start;
     }
+
+    /* Imagen a la derecha: el texto pasa a la izquierda. */
+    .project.media-right {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    }
+
+    .project.media-right .media {
+      order: 2;
+    }
   }
 </style>
+
+<script>
+  // Pasa las diapositivas solas. Se detiene al pasar el ratón o el foco por encima
+  // y no se activa si el visitante pide movimiento reducido.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const slides = Array.from(root.querySelectorAll<HTMLElement>('.slide'));
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('.dot'));
+    const interval = Number(root.dataset.interval ?? 5000);
+    let current = 0;
+    let timer: number | undefined;
+
+    const show = (index: number) => {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((s, i) => {
+        const active = i === current;
+        s.classList.toggle('is-active', active);
+        // Solo la demo visible se ejecuta; las demás se vacían para no gastar CPU.
+        const frame = s.querySelector<HTMLIFrameElement>('iframe');
+        if (frame?.dataset.src) {
+          const target = active ? frame.dataset.src : 'about:blank';
+          if (frame.getAttribute('src') !== target) frame.src = target;
+        }
+      });
+      dots.forEach((d, i) => d.classList.toggle('is-active', i === current));
+    };
+
+    const stop = () => {
+      if (timer !== undefined) window.clearInterval(timer);
+      timer = undefined;
+    };
+
+    const start = () => {
+      stop();
+      if (reduceMotion || slides.length < 2) return;
+      timer = window.setInterval(() => show(current + 1), interval);
+    };
+
+    dots.forEach((dot, i) =>
+      dot.addEventListener('click', () => {
+        show(i);
+        start();
+      }),
+    );
+
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    root.addEventListener('focusin', stop);
+    root.addEventListener('focusout', start);
+
+    // Escala cada demo para que quepa en la tarjeta, también al cambiar el tamaño de la ventana.
+    const fit = () => {
+      const scale = root.clientWidth / Number(root.dataset.vw ?? 850);
+      root.querySelectorAll<HTMLIFrameElement>('.demo').forEach((frame) => {
+        frame.style.transform = `scale(${scale})`;
+      });
+    };
+    fit();
+    window.addEventListener('resize', fit);
+
+    show(0);
+    start();
+  });
+</script>

@@ -16,6 +16,19 @@ const projects = defineCollection({
         demo: z.url().optional(),
         image: image().optional(),
         imageAlt: z.string().optional(),
+        // Proporción de la imagen de la tarjeta (16:10 por defecto).
+        aspect: z.enum(['16:10', '1:1']).default('16:10'),
+        // Lado de la imagen en escritorio.
+        mediaSide: z.enum(['left', 'right']).default('left'),
+        // Varias imágenes que se muestran en la tarjeta como carrusel automático.
+        // Cada diapositiva es una imagen o una demo en vivo (iframe).
+        gallery: z
+          .array(
+            z
+              .object({ image: image().optional(), demo: z.url().optional(), alt: z.string() })
+              .refine((s) => s.image || s.demo, { message: 'cada diapositiva necesita image o demo' }),
+          )
+          .optional(),
         featured: z.boolean().default(false),
         order: z.number().default(100),
       })

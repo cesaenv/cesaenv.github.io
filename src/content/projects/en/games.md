@@ -6,6 +6,21 @@ repo: https://github.com/cesaenv/games
 demo: https://games.saenzvillaltacelia.com/
 image: ../../../assets/projects/games.jpg
 imageAlt: Games menu with 2048 playing itself on its card
+aspect: "1:1"
+mediaSide: right
+gallery:
+  - image: ../../../assets/projects/gallery/games-2048.png
+    alt: 2048 board
+  - image: ../../../assets/projects/gallery/games-snake.png
+    alt: Snake board
+  - image: ../../../assets/projects/gallery/games-buscaminas.png
+    alt: Minesweeper board
+  - image: ../../../assets/projects/gallery/games-tetris.png
+    alt: Tetris board
+  - image: ../../../assets/projects/gallery/games-memoria.png
+    alt: Memory game board
+  - image: ../../../assets/projects/gallery/games-tres-en-raya.png
+    alt: Tic-tac-toe board
 order: 1000
 ---
 

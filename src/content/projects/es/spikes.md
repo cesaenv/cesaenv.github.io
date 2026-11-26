@@ -6,6 +6,11 @@ repo: https://github.com/cesaenv/spikes
 demo: https://spikes.saenzvillaltacelia.com/
 image: ../../../assets/projects/spikes.jpg
 imageAlt: Portada de spikes con las investigaciones de reconocer dígitos y humanos frente a bots
+gallery:
+  - image: ../../../assets/projects/gallery/spikes-digitos.png
+    alt: Dígitos de MNIST con la predicción de la red
+  - image: ../../../assets/projects/gallery/spikes-pca.png
+    alt: Proyección PCA de los clústeres de k-means sobre las sesiones
 order: 0
 ---
 

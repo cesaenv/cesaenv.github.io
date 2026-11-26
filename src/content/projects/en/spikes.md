@@ -6,6 +6,11 @@ repo: https://github.com/cesaenv/spikes
 demo: https://spikes.saenzvillaltacelia.com/
 image: ../../../assets/projects/spikes.jpg
 imageAlt: Spikes home page with digit recognition and human vs bots investigations
+gallery:
+  - image: ../../../assets/projects/gallery/spikes-digitos.png
+    alt: MNIST digits with the network's prediction
+  - image: ../../../assets/projects/gallery/spikes-pca.png
+    alt: PCA projection of the k-means clusters over the sessions
 order: 0
 ---
 
